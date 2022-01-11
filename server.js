@@ -33,7 +33,7 @@ app.post('/api/notes', (req, res) => {
       }
 
     // Add data to existing json array
-    json.push(note);
+    res.json(note);
   
     // Write updated json to array 
     fs.writeFile('db/db.json', JSON.stringify(json, null, 2), (err) => {
