@@ -29,11 +29,11 @@ app.post('/api/notes', (req, res) => {
       let note = {
         title: req.body.title,
         text: req.body.text,
-        id: uuid()
-      }
+        id: uuid(),
+      };
 
     // Add data to existing json array
-    res.json(note);
+    json.notes.push(note);
   
     // Write updated json to array 
     fs.writeFile('db/db.json', JSON.stringify(json, null, 2), (err) => {
@@ -41,7 +41,7 @@ app.post('/api/notes', (req, res) => {
         if (err) throw err;
         res.send('200');
     });
-    });
+  });
 });
   
 // DELETE REQUEST 
@@ -53,9 +53,9 @@ app.delete('/api/notes/:id', (req, res) => {
       let deleteId = req.params.id;
       // Handle data gathering for json update
       let json = JSON.parse(contents);
-      json.forEach((item, i) => {
+      json.notes.forEach((item, i) => {
         if (item.id.includes(deleteId)) {
-          json.splice(i, 1);
+          json.notes.splice(i, 1);
         }
       });
   
@@ -66,8 +66,7 @@ app.delete('/api/notes/:id', (req, res) => {
         res.send('200');
       });
     });
-  
-  })
+  });
 
 // ROUTES 
 app.get('/', (req, res) => {
